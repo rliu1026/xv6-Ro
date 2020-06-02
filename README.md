@@ -4,17 +4,16 @@ An advanced version of xv6. Multiple features added and changed.
 The original xv6 version I based on was used by UW Madison Computer Science Department in Comp Sci 537. Throughout my Operation System Course I have added several features and improvements to xv6. Here are my modifications:
 
 1. Change the process scheduler from Round Robin to Multi-Level Feedback Queue (MLFQ). Details:
-
-    Four priority levels.\n
+		Four priority levels.
     Number the queues from 3 for highest priority queue down to 0 for lowest priority queue.
     Whenever the xv6 timer tick (10 ms) occurs, the highest priority ready process is scheduled to run.
     The highest priority ready process is scheduled to run whenever the previously running process exits, sleeps, or otherwise yields the CPU.
     
-    The time-slice associated with priority queues are as follows:\n
-    Priority queue 3: 8 timer ticks (or ~80ms)\n
-    Priority queue 2: 16 timer ticks\n
-    Priority queue 1: 32 timer ticks\n
-    Priority queue 0 it executes the process until completion.\n
+    The time-slice associated with priority queues are as follows:
+		Priority queue 3: 8 timer ticks (or ~80ms)
+    Priority queue 2: 16 timer ticks
+    Priority queue 1: 32 timer ticks
+    Priority queue 0 it executes the process until completion.
     
     If there are more than one processes on the same priority level, then you scheduler should schedule all the processes at that particular level in a round-robin fashion.
     The round-robin slices differs for each queue and is as follows:
@@ -24,10 +23,15 @@ The original xv6 version I based on was used by UW Madison Computer Science Depa
     Priority queue 0 slice : 64 timer ticks
     
     When a new process arrives, it should start at priority 3 (highest priority).
-    At priorities 3, 2, and 1, after a process consumes its time-slice it should be downgraded one priority. At priority 0, the process should be executed to completion.
-    If a process voluntarily relinquishes the CPU before its time-slice expires at a particular priority level, its time-slice should not be reset; the next time that process is scheduled, it will continue to use the remainder of its existing time-slice at that priority level.
-    To overcome the problem of starvation, we will implement a mechanism for priority boost. If a process has waited 10x the time slice in its current priority level, it is raised to the next higher priority level at this time (unless it is already at priority level 3). For the queue number 0 (lowest priority) consider the maximum wait time to be 6400ms which equals to 640 timer ticks.
-    To make the scheduling behavior more visible you will be implementing a system call that boosts a process priority by one level (unless it is already at priority level 3).
+    
+		At priorities 3, 2, and 1, after a process consumes its time-slice it should be downgraded one priority. At priority 0, the process should be executed to completion.
+    
+		If a process voluntarily relinquishes the CPU before its time-slice expires at a particular priority level, its time-slice should not be reset; the next time that process is scheduled, it will continue to use the remainder of its existing time-slice at that priority level.
+    
+		To overcome the problem of starvation, we will implement a mechanism for priority boost. If a process has waited 10x the time slice in its current priority level, it is raised to the next higher priority level at this time (unless it is already at priority level 3). For the queue number 0 (lowest priority) consider the maximum wait time to be 6400ms which equals to 640 timer ticks.
+    
+		To make the scheduling behavior more visible you will be implementing a system call that boosts a process priority by one level (unless it is already at priority level 3).
+    
 
 2. int getprocinfo(struct pstat *allstate)
 
