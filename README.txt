@@ -23,27 +23,23 @@ The original xv6 version I based on was used by UW Madison Computer Science Depa
     Priority queue 0 slice : 64 timer ticks
     
     When a new process arrives, it should start at priority 3 (highest priority).
-    
 		At priorities 3, 2, and 1, after a process consumes its time-slice it should be downgraded one priority. At priority 0, the process should be executed to completion.
-    
-		If a process voluntarily relinquishes the CPU before its time-slice expires at a particular priority level, its time-slice should not be reset; the next time that process is scheduled, it will continue to use the remainder of its existing time-slice at that priority level.
-    
-		To overcome the problem of starvation, we will implement a mechanism for priority boost. If a process has waited 10x the time slice in its current priority level, it is raised to the next higher priority level at this time (unless it is already at priority level 3). For the queue number 0 (lowest priority) consider the maximum wait time to be 6400ms which equals to 640 timer ticks.
-    
+    If a process voluntarily relinquishes the CPU before its time-slice expires at a particular priority level, its time-slice should not be reset; the next time that process is scheduled, it will continue to use the remainder of its existing time-slice at that priority level.
+		To overcome the problem of starvation, we will implement a mechanism for priority boost. If a process has waited 10x the time slice in its current priority level, it is raised to the next higher priority level at this time (unless it is already at priority level 3). For the queue number 0 (lowest priority) consider the maximum wait time to be 6400ms which equals to 640 timer ticks. 
 		To make the scheduling behavior more visible you will be implementing a system call that boosts a process priority by one level (unless it is already at priority level 3).
-    
 
 2. int getprocinfo(struct pstat *allstate)
 
 	Storing info of all processes in MLFQ to the pstat struct passed in. NPROC is the number of processes. 
-	struct pstat {
-		int inuse[NPROC]; // whether this slot of the process table is in use (1 or 0)
-		int pid[NPROC];   // PID of each process
-		int priority[NPROC];  // current priority level of each process (0-3)
-		enum procstate state[NPROC];  // current state (e.g., SLEEPING or RUNNABLE) of each process
-		int ticks[NPROC][4];  // number of ticks each process has accumulated at each of 4 priorities
-		int wait_ticks[NPROC][4]; // number of ticks each process has waited before being scheduled
-	};
+	
+		struct pstat {
+			int inuse[NPROC]; // whether this slot of the process table is in use (1 or 0)
+			int pid[NPROC];   // PID of each process
+			int priority[NPROC];  // current priority level of each process (0-3)
+			enum procstate state[NPROC];  // current state (e.g., SLEEPING or RUNNABLE) of each process
+			int ticks[NPROC][4];  // number of ticks each process has accumulated at each of 4 priorities
+			int wait_ticks[NPROC][4]; // number of ticks each process has waited before being scheduled
+		};
 
 3. int boostproc(void)
 
