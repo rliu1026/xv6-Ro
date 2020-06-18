@@ -1,5 +1,5 @@
 # xv6_Ro
-An advanced version of xv6. Multiple features added and changed.
+An advanced version of xv6 with MLFQ scheduler, file access protection, semaphore, file system checker, and more.
 
 The original xv6 version I based on was used by UW Madison Computer Science Department in Comp Sci 537. Throughout my Operation System Course I have added several features and improvements to xv6. Here are my modifications:
 
